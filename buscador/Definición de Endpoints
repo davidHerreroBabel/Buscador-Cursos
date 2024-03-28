@@ -1,0 +1,37 @@
+/curso
+
+GET: "/all/filter"
+Devuelve la lista de cursos que aplican a los filtros introducidos
+Param: CursoObjetoEntrada cursoObjetoEntrada
+
+GET: "/{id}"
+Devuelve el detalle del curso con id "id"
+
+GET: "/{id}/matriculados"
+Devuelve la lista de alumnos matriculados en el curso con id "id"
+
+POST: ""
+Crea un curso con los datos introducidos
+Body: Curso curso
+Curso {
+    private String id;
+    private String area;
+    private String numHoras;
+    private Modalidad modalidad;
+    private String precio;
+    private String periodoMatriculacion;
+    private Boolean tieneCertificacionAsociada;
+    private String localidad;
+    private String direccion;
+    private List<Formador> formadores;
+    private Date fechaInicio;
+    private Date fechaFinal;
+}
+
+POST: "/id/matricular"
+Matricula al alumno introducico en el curso con id "id"
+Body: AlumnoIdCurso alumnoIdCurso
+AlumnoIdCurso {
+    private String idCurso;
+    private Alumno alumno;
+}

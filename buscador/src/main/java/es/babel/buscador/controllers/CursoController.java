@@ -7,6 +7,7 @@ import es.babel.buscador.model.DTO.CursoObjetoEntrada;
 import es.babel.buscador.model.DTO.CursoObjetoRespuesta;
 import es.babel.buscador.services.ICursoService;
 import es.babel.buscador.services.impl.CursoService;
+import es.babel.buscador.utils.Log;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,14 +29,22 @@ public class CursoController {
     @GetMapping(value = "/all/filter")
     public ResponseEntity<List<CursoObjetoRespuesta>> getListadoCursos
             (@RequestBody CursoObjetoEntrada cursoObjetoEntrada) {
-        return new ResponseEntity<>(cursoService.getListadoCursos(cursoObjetoEntrada),
-                HttpStatus.ACCEPTED);
+        Long startTime = System.nanoTime();
+        List<CursoObjetoRespuesta> listadoCursos = cursoService.getListadoCursos(cursoObjetoEntrada);
+        Long endTime = System.nanoTime();
+        long duracion = endTime - startTime;
+        Log.trace("Duración de la consulta: " + duracion);
+        return new ResponseEntity<>(listadoCursos, HttpStatus.ACCEPTED);
     }
 
     @GetMapping(value = "/id/detalle")
     public ResponseEntity<Curso> getCurso
             (@RequestParam String id) {
+        Long startTime = System.nanoTime();
         Curso curso = cursoService.getCurso(id);
+        Long endTime = System.nanoTime();
+        long duracion = endTime - startTime;
+        Log.trace("Duración de la consulta: " + duracion);
         if (curso == null) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
